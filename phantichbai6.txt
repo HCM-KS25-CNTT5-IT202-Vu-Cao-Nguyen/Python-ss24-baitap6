@@ -1,0 +1,29 @@
+Phân tích thiết kế OOP
+1. Class Drink
+Thành phầnLoạiÝ nghĩacodeThuộc tính publicMã món, định danh duy nhấtnameThuộc tính publicTên món__priceThuộc tính private (encapsulation)Giá bán, không truy cập trực tiếp được từ ngoàiis_availableThuộc tính publicTrạng thái kinh doanh, mặc định True
+2. Vì sao __price phải private?
+
+Theo đề bài, giá bán là dữ liệu nhạy cảm — nhân viên không được sửa tay trực tiếp. Dùng __price (double underscore → Python name mangling) kết hợp @property để:
+
+Đọc giá: qua getter price (chỉ đọc, không cho set tự do)
+Validate giá khi tạo mới (giá > 0) ngay trong logic thêm món
+
+3. Method cần có
+
+__init__(self, code, name, price): khởi tạo, gán mặc định is_available = True
+@property price: trả về self.__price (đóng gói)
+toggle_available(self): đảo trạng thái đang bán ↔ ngừng bán
+__str__ hoặc method hiển thị format theo bảng (tùy chọn, giúp in đẹp hơn)
+
+4. Cấu trúc chương trình (menu loop)
+
+Danh sách menu: List[Drink] chứa object, không phải dict
+while True với 4 lựa chọn: Xem danh sách / Thêm món / Cập nhật trạng thái / Thoát
+Validate khi thêm món: mã không trùng (loop kiểm tra drink.code), giá > 0 (dùng try/except để bắt lỗi nhập không phải số)
+Tìm món theo mã: duyệt menu, so sánh drink.code
+
+5. Nguyên tắc OOP áp dụng
+
+Encapsulation: __price ẩn, chỉ truy cập qua property → đảm bảo không sửa giá tùy ý từ ngoài class
+Abstraction: người dùng chỉ gọi method (toggle_available(), đọc price) mà không cần biết chi tiết lưu trữ bên trong
+Mỗi món là 1 Object độc lập, có dữ liệu (state) và hành vi (method) riêng — khác hẳn dict chỉ chứa dữ liệu thuần
